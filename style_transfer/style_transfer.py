@@ -79,7 +79,7 @@ class VGGFeatures(nn.Module):
         if min(h, w) < min_size:
             raise ValueError(f'Input is {h}x{w} but must be at least {min_size}x{min_size}')
         feats = {'input': input}
-        torch_tensor = torch.from_numpy(input).long()
+        #torch_tensor = torch.from_numpy(input).long()
         input = self.normalize(input)
         for i in range(max(layers) + 1):
             input = self.model[i](input.to(self.devices[i]))
