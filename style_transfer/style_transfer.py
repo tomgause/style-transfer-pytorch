@@ -25,9 +25,7 @@ class VGGFeatures(nn.Module):
 
         # The PyTorch pre-trained VGG-19 expects sRGB inputs in the range [0, 1] which are then
         # normalized according to this transform, unlike Simonyan et al.'s original model.
-        self.normalize = transforms.Compose(
-            [transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
+        self.normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
         # The PyTorch pre-trained VGG-19 has different parameters from Simonyan et al.'s original
         # model.
@@ -81,7 +79,7 @@ class VGGFeatures(nn.Module):
         if min(h, w) < min_size:
             raise ValueError(f'Input is {h}x{w} but must be at least {min_size}x{min_size}')
         feats = {'input': input}
-        input = input.cpu().numpy() # need to convert to numpy
+        torch_tensor = torch.from_numpy(input).long()
         input = self.normalize(input)
         for i in range(max(layers) + 1):
             input = self.model[i](input.to(self.devices[i]))
