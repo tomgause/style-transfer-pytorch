@@ -27,7 +27,7 @@ class VGGFeatures(nn.Module):
         # normalized according to this transform, unlike Simonyan et al.'s original model.
         self.normalize = transforms.Compose(
             [transforms.ToTensor(),
-            Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
 
         # The PyTorch pre-trained VGG-19 has different parameters from Simonyan et al.'s original
         # model.
